@@ -1,0 +1,72 @@
+<!-- src/app/quiz/quiz.component.html -->
+<div class="quiz-container" *ngIf="!quizFinished && currentQuestion">
+  <div class="quiz-header">
+    <div class="progress-container">
+      <div class="progress-bar" [style.width]="(currentQuestionIndex + 1) / questions.length * 100 + '%'"></div>
+    </div>
+    <h2 class="quiz-title">Question <span class="current">{{currentQuestionIndex + 1}}</span> of {{questions.length}}</h2>
+  </div>
+  
+  <div class="question-card">
+    <!-- Add this inside your question-content div, after question-meta -->
+<div class="question-content">
+  <p class="question-text">{{currentQuestion.question}}</p>
+  <div class="question-meta">
+    <span class="meta-badge degree">{{currentQuestion.degree}}</span>
+    <span class="meta-badge type">{{currentQuestion.type}}</span>
+    <a href="https://chat.deepseek.com/" target="_blank" (click)="copyQuestionToClipboard()">
+        <button class="copy-btn" style="color: #0066ff; border-color: #0066ff;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+            </svg>
+            ابدأ الإجابة
+        </button>
+    </a>
+  </div>
+</div>
+    
+    <div class="answer-section">
+      <div class="input-group">
+        <input [(ngModel)]="degree" 
+               placeholder="Enter your answer..." 
+               type="number"
+               class="answer-input"
+               (keyup.enter)="submitAnswer()">
+        <button class="submit-btn" (click)="submitAnswer()">
+          <span>Submit</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.5.5 0 0 1-.916.116l-3.474-6.527a.5.5 0 0 0-.708-.708L1.17 11.14a.5.5 0 0 1-.116-.916L15.314.146a.5.5 0 0 1 .54.11z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="quiz-finished" *ngIf="quizFinished">
+  <div class="result-card">
+    <div class="result-header">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#4CAF50" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+      </svg>
+      <h2 class="result-title">Quiz Completed!</h2>
+      <p class="result-score">You scored <span class="highlight">{{score}}</span> out of {{questions.length}}</p>
+    </div>
+    
+    <div class="result-actions">
+      <button class="action-btn primary" (click)="restartQuiz()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+          <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+        </svg>
+        Retake Quiz
+      </button>
+      <button class="action-btn secondary" (click)="startNewQuiz()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+        </svg>
+        New Quiz
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+
+<div class="container">
+  <h2>Question Bank</h2>
+  
+  <!-- Filter Section -->
+  <div class="filter-section">
+    <div class="filter-group">
+        <h3>Filter by Degree</h3>
+        <div *ngFor="let degree of degrees">
+            <input type="checkbox" [id]="'degree-' + degree" 
+                [checked]="selectedDegrees.includes(degree)"
+                (change)="toggleDegreeFilter(degree)">
+            <label [for]="'degree-' + degree">{{degree}}</label>
+        </div>
+    </div>
+
+    <div class="filter-group">
+        <h3>Filter by Type</h3>
+        <div *ngFor="let type of types">
+            <input type="checkbox" [id]="'type-' + type" 
+                [checked]="selectedTypes.includes(type)"
+                (change)="toggleTypeFilter(type)">
+            <label [for]="'type-' + type">{{type | titlecase}}</label>
+        </div>
+    </div>
+
+  <div class="filter-group">
+    <h3>Filter by Solved Status</h3>
+        <div>
+            <input type="checkbox" id="solved-true" 
+                [checked]="selectedSolved.includes(true)"
+                (change)="toggleSolvedFilter(true)">
+            <label for="solved-true">Solved</label>
+        </div>
+        <div>
+            <input type="checkbox" id="solved-false" 
+                [checked]="selectedSolved.includes(false)"
+                (change)="toggleSolvedFilter(false)">
+            <label for="solved-false">Unsolved</label>
+        </div>
+    </div>
+
+    <button (click)="applyFilters()">Apply Filters</button>
+  </div>
+
+  <!-- Question List -->
+  <div class="question-list">
+    <div *ngFor="let question of filteredQuestions" class="question-item">
+      <input type="checkbox" 
+             [checked]="isSelected(question)" 
+             (change)="toggleQuestionSelection(question)">
+      <div class="question-details">
+        <p>{{question.question}}</p>
+        <div class="question-meta">
+          <span class="degree">{{question.degree}}</span>
+          <span class="type">{{question.type}}</span>
+          <span class="solved">{{question.isSolvedBefore ? 'Solved' : 'Unsolved'}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start Quiz Button -->
+  <button *ngIf="selectedQuestions.length > 0" 
+          (click)="startQuiz()" 
+          class="start-quiz-btn">
+    Start Quiz ({{selectedQuestions.length}} questions selected)
+  </button>
+</div>
